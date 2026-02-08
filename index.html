@@ -3,108 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Abdul // Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --cyan: #00d4ff;
+            --cyan-dim: rgba(0, 212, 255, 0.15);
+            --cyan-glow: rgba(0, 212, 255, 0.4);
+            --amber: #ff9f1c;
+            --amber-dim: rgba(255, 159, 28, 0.15);
+            --red: #ff3c3c;
+            --green: #00ff88;
+            --bg-dark: #030a12;
+            --bg-panel: rgba(0, 20, 40, 0.6);
+            --border: rgba(0, 212, 255, 0.2);
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--bg-dark);
+            color: #c8e6f0;
             min-height: 100vh;
             padding: 20px;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        /* ── Grid background ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Header */
+        /* ════════════════════════ HEADER ════════════════════════ */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 0 20px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 120px;
+            height: 1px;
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan-glow);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: var(--cyan);
+            text-shadow: 0 0 20px var(--cyan-glow), 0 0 40px rgba(0,212,255,0.15);
+            letter-spacing: 4px;
         }
+
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 24px;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--green);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+            animation: pulse 2s ease-in-out infinite;
         }
 
         .last-updated {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.85rem;
+            font-family: 'Share Tech Mono', monospace;
+            color: rgba(0,212,255,0.5);
+            font-size: 0.75rem;
+        }
+
+        .countdown {
+            font-family: 'Share Tech Mono', monospace;
+            color: rgba(0,212,255,0.3);
+            font-size: 0.7rem;
         }
 
         .refresh-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 25px;
+            font-family: 'Orbitron', monospace;
+            background: transparent;
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+            padding: 10px 24px;
             cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: relative;
+            clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
         }
 
         .refresh-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            background: var(--cyan-dim);
+            box-shadow: 0 0 20px var(--cyan-glow), inset 0 0 20px var(--cyan-dim);
         }
 
-        .refresh-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .refresh-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* ════════════════════════ HUD PANEL (reusable) ════════════════════════ */
+        .hud-panel {
+            position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(8px);
+            padding: 24px;
+            margin-bottom: 24px;
         }
 
-        /* Weather Section */
+        /* Corner brackets */
+        .hud-panel::before, .hud-panel::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+        }
+        .hud-panel::before {
+            top: -1px; left: -1px;
+            border-top: 2px solid var(--cyan);
+            border-left: 2px solid var(--cyan);
+            box-shadow: -2px -2px 8px var(--cyan-dim);
+        }
+        .hud-panel::after {
+            top: -1px; right: -1px;
+            border-top: 2px solid var(--cyan);
+            border-right: 2px solid var(--cyan);
+            box-shadow: 2px -2px 8px var(--cyan-dim);
+        }
+
+        .hud-corner-bl, .hud-corner-br {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+        }
+        .hud-corner-bl {
+            bottom: -1px; left: -1px;
+            border-bottom: 2px solid var(--cyan);
+            border-left: 2px solid var(--cyan);
+            box-shadow: -2px 2px 8px var(--cyan-dim);
+        }
+        .hud-corner-br {
+            bottom: -1px; right: -1px;
+            border-bottom: 2px solid var(--cyan);
+            border-right: 2px solid var(--cyan);
+            box-shadow: 2px 2px 8px var(--cyan-dim);
+        }
+
+        /* ════════════════════════ SECTION TITLES ════════════════════════ */
+        .section { margin-bottom: 28px; }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 0 10px var(--cyan-dim);
+        }
+
+        .section-title::before {
+            content: '//';
+            color: rgba(0,212,255,0.3);
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border), transparent);
+        }
+
+        /* ════════════════════════ WEATHER ════════════════════════ */
         .weather-section {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            border-radius: 24px;
+            position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(8px);
             padding: 30px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
             display: grid;
             grid-template-columns: 1fr auto;
             gap: 30px;
             align-items: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            position: relative;
             overflow: hidden;
         }
 
-        .weather-section::before {
+        .weather-section::before, .weather-section::after {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            pointer-events: none;
+        }
+        .weather-section::before {
+            top: -1px; left: -1px;
+            border-top: 2px solid var(--cyan);
+            border-left: 2px solid var(--cyan);
+        }
+        .weather-section::after {
+            top: -1px; right: -1px;
+            border-top: 2px solid var(--cyan);
+            border-right: 2px solid var(--cyan);
         }
 
         .weather-main {
@@ -115,132 +265,344 @@
             z-index: 1;
         }
 
-        .weather-icon {
-            font-size: 5rem;
-            line-height: 1;
-        }
+        .weather-icon { font-size: 4.5rem; line-height: 1; }
 
         .weather-info h2 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px var(--cyan-dim);
+            margin-bottom: 4px;
         }
 
         .weather-info .location {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 5px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+            letter-spacing: 2px;
         }
 
         .weather-info .condition {
-            font-size: 1rem;
-            opacity: 0.7;
-            text-transform: capitalize;
+            font-size: 0.95rem;
+            opacity: 0.6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .weather-details {
             display: flex;
-            gap: 30px;
+            gap: 28px;
             position: relative;
             z-index: 1;
         }
 
-        .weather-detail {
-            text-align: center;
-        }
+        .weather-detail { text-align: center; }
 
         .weather-detail .label {
-            font-size: 0.75rem;
-            opacity: 0.6;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: rgba(0,212,255,0.5);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
         }
 
         .weather-detail .value {
-            font-size: 1.3rem;
-            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #fff;
         }
 
-        /* Hourly Forecast */
         .hourly-forecast {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             overflow-x: auto;
-            padding: 15px 0;
+            padding: 15px 0 5px;
             margin-top: 20px;
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--border);
             position: relative;
             z-index: 1;
+            grid-column: 1 / -1;
         }
 
         .hourly-item {
             text-align: center;
-            min-width: 70px;
-            padding: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
+            min-width: 65px;
+            padding: 10px 8px;
+            background: rgba(0,212,255,0.04);
+            border: 1px solid rgba(0,212,255,0.1);
         }
 
         .hourly-item .time {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            margin-bottom: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: rgba(0,212,255,0.5);
+            margin-bottom: 6px;
         }
 
-        .hourly-item .icon {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-        }
+        .hourly-item .icon { font-size: 1.3rem; margin-bottom: 6px; }
 
         .hourly-item .temp {
-            font-size: 0.95rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
             font-weight: 600;
+            color: #fff;
         }
 
-        /* Section Titles */
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section-header {
+        /* ════════════════════════ TO-DO ════════════════════════ */
+        .todo-input-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .section-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
             gap: 10px;
+            margin-bottom: 16px;
         }
 
-        .section-title::before {
-            content: '';
-            width: 4px;
-            height: 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 2px;
+        .todo-input {
+            flex: 1;
+            background: rgba(0,212,255,0.05);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
         }
 
-        /* Stock Cards */
-        .stocks-grid {
+        .todo-input::placeholder { color: rgba(0,212,255,0.25); }
+        .todo-input:focus {
+            border-color: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan-dim), inset 0 0 10px var(--cyan-dim);
+        }
+
+        .todo-add-btn {
+            font-family: 'Orbitron', monospace;
+            background: transparent;
+            color: var(--cyan);
+            border: 1px solid var(--cyan);
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .todo-add-btn:hover {
+            background: var(--cyan-dim);
+            box-shadow: 0 0 15px var(--cyan-glow);
+        }
+
+        .todo-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(0,212,255,0.03);
+            border: 1px solid rgba(0,212,255,0.08);
+            border-left: 3px solid rgba(0,212,255,0.3);
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .todo-item:hover {
+            border-left-color: var(--cyan);
+            background: rgba(0,212,255,0.06);
+        }
+
+        .todo-item.done .todo-text { text-decoration: line-through; opacity: 0.3; }
+
+        .todo-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--cyan);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+            color: transparent;
+            font-size: 0.7rem;
+        }
+
+        .todo-checkbox:hover { box-shadow: 0 0 8px var(--cyan-glow); }
+
+        .todo-item.done .todo-checkbox {
+            background: var(--cyan);
+            color: var(--bg-dark);
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .todo-delete {
+            background: none;
+            border: none;
+            color: rgba(255,60,60,0.3);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px 8px;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .todo-delete:hover { color: var(--red); text-shadow: 0 0 8px rgba(255,60,60,0.5); }
+
+        /* ════════════════════════ EVENTS ════════════════════════ */
+        .events-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
         }
 
-        .stock-card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 24px;
-            transition: all 0.3s ease;
+        .event-card {
             position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 0;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .event-card:hover {
+            border-color: var(--cyan);
+            box-shadow:
+                0 0 30px var(--cyan-dim),
+                0 0 60px rgba(0,212,255,0.08),
+                inset 0 0 30px rgba(0,212,255,0.03);
+        }
+
+        /* Corner brackets on events */
+        .event-card::before, .event-card::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            pointer-events: none;
+            z-index: 3;
+            transition: all 0.4s ease;
+        }
+        .event-card::before {
+            top: -1px; left: -1px;
+            border-top: 2px solid var(--cyan);
+            border-left: 2px solid var(--cyan);
+        }
+        .event-card::after {
+            bottom: -1px; right: -1px;
+            border-bottom: 2px solid var(--cyan);
+            border-right: 2px solid var(--cyan);
+        }
+
+        .event-card:hover::before, .event-card:hover::after {
+            width: 24px;
+            height: 24px;
+            filter: drop-shadow(0 0 6px var(--cyan));
+        }
+
+        /* Top accent bar */
+        .event-accent-bar {
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), rgba(0,212,255,0.2), transparent);
+            position: relative;
+        }
+
+
+        .event-card-body {
+            padding: 24px 24px 20px;
+            position: relative;
+        }
+
+
+        .event-day-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(0,212,255,0.6);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .event-date-big {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 0 20px var(--cyan-dim);
+            line-height: 1.1;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .event-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .event-countdown {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .event-countdown .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--cyan);
+            flex-shrink: 0;
+        }
+
+        .event-countdown.today { color: var(--green); }
+        .event-countdown.today .dot { background: var(--green); box-shadow: 0 0 10px var(--green); animation: pulse 1.5s ease-in-out infinite; }
+
+        .event-countdown.tomorrow { color: var(--amber); }
+        .event-countdown.tomorrow .dot { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+
+        .event-countdown.upcoming { color: var(--cyan); }
+        .event-countdown.upcoming .dot { box-shadow: 0 0 10px var(--cyan-glow); }
+
+        /* ════════════════════════ STOCKS ════════════════════════ */
+        .stocks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .stock-card {
+            position: relative;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 22px;
+            transition: all 0.3s ease;
             overflow: hidden;
         }
 
@@ -250,304 +612,279 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyan), transparent);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .stock-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(102, 126, 234, 0.5);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border-color: rgba(0,212,255,0.4);
+            box-shadow: 0 0 20px var(--cyan-dim), inset 0 0 20px rgba(0,212,255,0.02);
+            transform: translateY(-3px);
         }
 
-        .stock-card:hover::before {
-            opacity: 1;
-        }
+        .stock-card:hover::before { opacity: 1; }
 
         .stock-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
         }
 
         .stock-symbol {
-            font-size: 1.4rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            color: var(--cyan);
+            letter-spacing: 1px;
         }
 
         .stock-name {
-            color: rgba(255,255,255,0.5);
-            font-size: 0.85rem;
-            margin-top: 2px;
+            font-family: 'Share Tech Mono', monospace;
+            color: rgba(0,212,255,0.4);
+            font-size: 0.75rem;
+            margin-top: 3px;
+            letter-spacing: 1px;
         }
 
         .stock-price {
-            font-size: 1.8rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
             font-weight: 700;
+            color: #fff;
             text-align: right;
         }
 
         .stock-change {
-            font-size: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
             font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 4px 10px;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
-        .positive {
-            color: #00ff88;
-            background: rgba(0, 255, 136, 0.15);
-        }
+        .positive { color: var(--green); background: rgba(0,255,136,0.08); border: 1px solid rgba(0,255,136,0.2); }
+        .negative { color: var(--red); background: rgba(255,60,60,0.08); border: 1px solid rgba(255,60,60,0.2); }
+        .neutral { color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
 
-        .negative {
-            color: #ff4757;
-            background: rgba(255, 71, 87, 0.15);
-        }
+        .arrow-up::before { content: '\25B2 '; font-size: 0.65rem; }
+        .arrow-down::before { content: '\25BC '; font-size: 0.65rem; }
 
-        .neutral {
-            color: rgba(255,255,255,0.5);
-            background: rgba(255,255,255,0.1);
-        }
-
-        .arrow-up::before {
-            content: '↑';
-            margin-right: 3px;
-        }
-
-        .arrow-down::before {
-            content: '↓';
-            margin-right: 3px;
-        }
-
-        /* Metals Section */
+        /* ════════════════════════ METALS ════════════════════════ */
         .metals-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 16px;
         }
 
         .metal-card {
-            background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(192,192,192,0.1) 100%);
-            border: 1px solid rgba(255,215,0,0.2);
-            border-radius: 16px;
-            padding: 24px;
+            position: relative;
+            border: 1px solid var(--border);
+            padding: 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-        }
-
-        .metal-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(255,215,0,0.1);
+            overflow: hidden;
         }
 
         .metal-card.gold {
-            background: linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(255,193,7,0.05) 100%);
-            border-color: rgba(255,215,0,0.3);
+            background: linear-gradient(135deg, rgba(255,215,0,0.06) 0%, var(--bg-panel) 100%);
+            border-color: rgba(255,215,0,0.2);
+        }
+
+        .metal-card.gold:hover {
+            border-color: rgba(255,215,0,0.5);
+            box-shadow: 0 0 25px rgba(255,215,0,0.1);
         }
 
         .metal-card.silver {
-            background: linear-gradient(135deg, rgba(192,192,192,0.15) 0%, rgba(169,169,169,0.05) 100%);
-            border-color: rgba(192,192,192,0.3);
+            background: linear-gradient(135deg, rgba(192,192,192,0.06) 0%, var(--bg-panel) 100%);
+            border-color: rgba(192,192,192,0.2);
         }
 
-        .metal-icon {
-            font-size: 2.5rem;
-            margin-right: 15px;
+        .metal-card.silver:hover {
+            border-color: rgba(192,192,192,0.5);
+            box-shadow: 0 0 25px rgba(192,192,192,0.1);
         }
 
-        .metal-info {
-            flex: 1;
-        }
+        .metal-icon { font-size: 2.2rem; margin-right: 15px; }
+        .metal-info { flex: 1; }
 
         .metal-name {
-            font-size: 1.1rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
             font-weight: 700;
-            margin-bottom: 3px;
+            color: #fff;
+            letter-spacing: 1px;
         }
 
         .metal-symbol {
-            font-size: 0.85rem;
-            opacity: 0.6;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 1px;
         }
 
-        .metal-price {
-            text-align: right;
-        }
+        .metal-price { text-align: right; }
 
         .metal-price .price {
-            font-size: 1.6rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.4rem;
             font-weight: 700;
+            color: #fff;
         }
 
-        /* Sector Heatmap */
+        /* ════════════════════════ SECTOR HEATMAP ════════════════════════ */
         .heatmap-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
         }
 
         .sector-card {
-            padding: 20px 15px;
-            border-radius: 12px;
+            padding: 18px 12px;
             text-align: center;
             transition: all 0.3s ease;
             cursor: default;
             position: relative;
-            overflow: hidden;
-        }
-
-        .sector-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            border: 1px solid transparent;
         }
 
         .sector-card:hover {
-            transform: scale(1.05);
-        }
-
-        .sector-card:hover::after {
-            opacity: 1;
+            transform: scale(1.06);
+            z-index: 2;
         }
 
         .sector-name {
-            font-size: 0.8rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
             font-weight: 500;
             margin-bottom: 8px;
             opacity: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .sector-change {
-            font-size: 1.3rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
             font-weight: 800;
         }
 
-        /* Heatmap colors - more vibrant */
-        .heat-5 { background: linear-gradient(135deg, #00b894 0%, #00cec9 100%); }
-        .heat-4 { background: linear-gradient(135deg, #00a085 0%, #00b894 100%); }
-        .heat-3 { background: linear-gradient(135deg, #009074 0%, #00a085 100%); }
-        .heat-2 { background: linear-gradient(135deg, #007f65 0%, #009074 100%); }
-        .heat-1 { background: linear-gradient(135deg, #006d54 0%, #007f65 100%); }
-        .heat-0 { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
-        .heat--1 { background: linear-gradient(135deg, #6d3040 0%, #7f3a4a 100%); }
-        .heat--2 { background: linear-gradient(135deg, #7f3a4a 0%, #904454 100%); }
-        .heat--3 { background: linear-gradient(135deg, #904454 0%, #a14e5e 100%); }
-        .heat--4 { background: linear-gradient(135deg, #a14e5e 0%, #c0392b 100%); }
-        .heat--5 { background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%); }
+        .heat-5 { background: rgba(0,255,136,0.2); border-color: rgba(0,255,136,0.3); color: #fff; }
+        .heat-4 { background: rgba(0,255,136,0.15); border-color: rgba(0,255,136,0.2); }
+        .heat-3 { background: rgba(0,255,136,0.1); border-color: rgba(0,255,136,0.15); }
+        .heat-2 { background: rgba(0,255,136,0.07); border-color: rgba(0,255,136,0.12); }
+        .heat-1 { background: rgba(0,255,136,0.04); border-color: rgba(0,255,136,0.08); }
+        .heat-0 { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.4); }
+        .heat--1 { background: rgba(255,60,60,0.04); border-color: rgba(255,60,60,0.08); }
+        .heat--2 { background: rgba(255,60,60,0.07); border-color: rgba(255,60,60,0.12); }
+        .heat--3 { background: rgba(255,60,60,0.1); border-color: rgba(255,60,60,0.15); }
+        .heat--4 { background: rgba(255,60,60,0.15); border-color: rgba(255,60,60,0.2); }
+        .heat--5 { background: rgba(255,60,60,0.2); border-color: rgba(255,60,60,0.3); }
 
-        /* Loading States */
+        /* ════════════════════════ LOADING / UTILITY ════════════════════════ */
         .loading {
             text-align: center;
-            padding: 60px;
-            color: rgba(255,255,255,0.5);
+            padding: 50px;
+            color: rgba(0,212,255,0.4);
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 2px;
         }
 
         .spinner {
             display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: #667eea;
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--border);
+            border-top-color: var(--cyan);
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin-bottom: 15px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+        /* Arc reactor decoration in bottom-right */
+        .arc-reactor {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .arc-reactor .ring {
+            position: absolute;
+            inset: 0;
+            border: 2px solid var(--cyan);
+            border-radius: 50%;
+            animation: spin 8s linear infinite;
         }
 
-        .countdown {
-            color: rgba(255,255,255,0.4);
-            font-size: 0.8rem;
+        .arc-reactor .ring:nth-child(2) {
+            inset: 8px;
+            border-style: dashed;
+            animation-direction: reverse;
+            animation-duration: 6s;
         }
 
-        /* Mobile */
+        .arc-reactor .ring:nth-child(3) {
+            inset: 16px;
+            border-width: 1px;
+            animation-duration: 4s;
+        }
+
+        .arc-reactor .core {
+            position: absolute;
+            inset: 22px;
+            background: var(--cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--cyan), 0 0 40px var(--cyan-glow);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* ════════════════════════ MOBILE ════════════════════════ */
         @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-
-            .logo {
-                font-size: 1.2rem;
-            }
-
-            .weather-section {
-                grid-template-columns: 1fr;
-                padding: 20px;
-            }
-
-            .weather-main {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .weather-icon {
-                font-size: 4rem;
-            }
-
-            .weather-info h2 {
-                font-size: 2.5rem;
-            }
-
-            .weather-details {
-                justify-content: center;
-            }
-
-            .hourly-forecast {
-                justify-content: flex-start;
-            }
-
-            .stocks-grid, .metals-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .heatmap-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .stock-card, .metal-card {
-                padding: 18px;
-            }
-
-            .header-right {
-                flex-direction: column;
-                align-items: flex-end;
-                gap: 10px;
-            }
+            body { padding: 12px; }
+            .logo { font-size: 1.1rem; }
+            .weather-section { grid-template-columns: 1fr; padding: 20px; }
+            .weather-main { flex-direction: column; text-align: center; }
+            .weather-icon { font-size: 3.5rem; }
+            .weather-info h2 { font-size: 2.2rem; }
+            .weather-details { justify-content: center; flex-wrap: wrap; }
+            .stocks-grid, .metals-grid, .events-grid { grid-template-columns: 1fr; }
+            .heatmap-grid { grid-template-columns: repeat(2, 1fr); }
+            .header-right { flex-direction: column; align-items: flex-end; gap: 8px; }
+            .arc-reactor { display: none; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <div class="logo">Dashboard</div>
+            <div class="logo">
+                PERSONAL DASHBOARD
+            </div>
             <div class="header-right">
+                <div class="system-status">
+                    <div class="status-dot"></div>
+                    SYSTEMS ONLINE
+                </div>
                 <div>
-                    <div class="last-updated" id="lastUpdated">Loading...</div>
+                    <div class="last-updated" id="lastUpdated">INITIALIZING...</div>
                     <div class="countdown" id="countdown"></div>
                 </div>
-                <button class="refresh-btn" id="refreshBtn" onclick="fetchAllData()">↻ Refresh</button>
+                <button class="refresh-btn" id="refreshBtn" onclick="fetchAllData()">REFRESH</button>
             </div>
         </header>
 
@@ -555,55 +892,77 @@
         <div class="weather-section" id="weatherSection">
             <div class="loading">
                 <div class="spinner"></div>
-                <div>Loading weather...</div>
+                <div>ACQUIRING WEATHER DATA...</div>
             </div>
+        </div>
+
+        <!-- To-Do List Section -->
+        <div class="section">
+            <div class="section-title">Mission Objectives</div>
+            <div class="hud-panel">
+                <div class="hud-corner-bl"></div>
+                <div class="hud-corner-br"></div>
+                <div class="todo-input-row">
+                    <input type="text" class="todo-input" id="todoInput" placeholder="Enter new objective..." onkeypress="if(event.key==='Enter') addTodo()">
+                    <button class="todo-add-btn" onclick="addTodo()">+ ADD</button>
+                </div>
+                <ul class="todo-list" id="todoList"></ul>
+            </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="section">
+            <div class="section-title">Upcoming Events</div>
+            <div class="events-grid" id="eventsList"></div>
         </div>
 
         <!-- Stocks Section -->
         <div class="section">
-            <div class="section-header">
-                <div class="section-title">My Stocks</div>
-            </div>
+            <div class="section-title">Portfolio Tracking</div>
             <div class="stocks-grid" id="stocksGrid">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <div>Loading stocks...</div>
+                    <div>LOADING MARKET DATA...</div>
                 </div>
             </div>
         </div>
 
         <!-- Precious Metals -->
         <div class="section">
-            <div class="section-header">
-                <div class="section-title">Precious Metals</div>
-            </div>
+            <div class="section-title">Precious Metals</div>
             <div class="metals-grid" id="metalsGrid">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <div>Loading metals...</div>
+                    <div>LOADING COMMODITIES...</div>
                 </div>
             </div>
         </div>
 
         <!-- Sector Heatmap -->
         <div class="section">
-            <div class="section-header">
-                <div class="section-title">Sector Heatmap</div>
-            </div>
+            <div class="section-title">Sector Analysis</div>
             <div class="heatmap-grid" id="sectorGrid">
                 <div class="loading">
                     <div class="spinner"></div>
-                    <div>Loading sectors...</div>
+                    <div>SCANNING SECTORS...</div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Arc Reactor decoration -->
+    <div class="arc-reactor">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="core"></div>
     </div>
 
     <script>
         const FINNHUB_API_KEY = 'd5jd7j9r01qh37ujrnhgd5jd7j9r01qh37ujrni0';
         const OPENWEATHER_API_KEY = '835ad781595ec7d407fe83bfddda1343';
         const CITY = 'Dallas';
-        const REFRESH_INTERVAL = 15 * 60 * 1000;
+        const REFRESH_INTERVAL = 30 * 1000;
 
         const STOCKS = [
             { symbol: 'MU', name: 'Micron' },
@@ -615,8 +974,8 @@
         ];
 
         const METALS = [
-            { symbol: 'GLD', name: 'Gold', icon: '🥇', class: 'gold' },
-            { symbol: 'SLV', name: 'Silver', icon: '🥈', class: 'silver' },
+            { symbol: 'GLD', name: 'Gold', icon: '\u{1F947}', class: 'gold' },
+            { symbol: 'SLV', name: 'Silver', icon: '\u{1F948}', class: 'silver' },
         ];
 
         const SECTORS = [
@@ -634,15 +993,15 @@
         ];
 
         const weatherIcons = {
-            '01d': '☀️', '01n': '🌙',
-            '02d': '⛅', '02n': '☁️',
-            '03d': '☁️', '03n': '☁️',
-            '04d': '☁️', '04n': '☁️',
-            '09d': '🌧️', '09n': '🌧️',
-            '10d': '🌦️', '10n': '🌧️',
-            '11d': '⛈️', '11n': '⛈️',
-            '13d': '❄️', '13n': '❄️',
-            '50d': '🌫️', '50n': '🌫️',
+            '01d': '\u2600\uFE0F', '01n': '\uD83C\uDF19',
+            '02d': '\u26C5', '02n': '\u2601\uFE0F',
+            '03d': '\u2601\uFE0F', '03n': '\u2601\uFE0F',
+            '04d': '\u2601\uFE0F', '04n': '\u2601\uFE0F',
+            '09d': '\uD83C\uDF27\uFE0F', '09n': '\uD83C\uDF27\uFE0F',
+            '10d': '\uD83C\uDF26\uFE0F', '10n': '\uD83C\uDF27\uFE0F',
+            '11d': '\u26C8\uFE0F', '11n': '\u26C8\uFE0F',
+            '13d': '\u2744\uFE0F', '13n': '\u2744\uFE0F',
+            '50d': '\uD83C\uDF2B\uFE0F', '50n': '\uD83C\uDF2B\uFE0F',
         };
 
         let countdownInterval;
@@ -682,43 +1041,89 @@
 
         function renderWeather(data) {
             if (!data) {
-                return `<div class="loading">Weather unavailable</div>`;
+                return `<div class="loading">WEATHER FEED UNAVAILABLE</div>`;
             }
 
             const { current, forecast } = data;
-            const icon = weatherIcons[current.weather[0].icon] || '🌡️';
+            const icon = weatherIcons[current.weather[0].icon] || '\uD83C\uDF21\uFE0F';
             const temp = Math.round(current.main.temp);
             const feelsLike = Math.round(current.main.feels_like);
             const humidity = current.main.humidity;
             const wind = Math.round(current.wind.speed);
             const condition = current.weather[0].description;
+            const rainChance = forecast.list.length > 0 ? Math.round((forecast.list[0].pop || 0) * 100) : 0;
 
-            // Get next 6 hours
-            const hourlyHtml = forecast.list.slice(0, 6).map(item => {
-                const time = new Date(item.dt * 1000);
-                const hourIcon = weatherIcons[item.weather[0].icon] || '🌡️';
-                return `
-                    <div class="hourly-item">
-                        <div class="time">${time.getHours()}:00</div>
-                        <div class="icon">${hourIcon}</div>
-                        <div class="temp">${Math.round(item.main.temp)}°</div>
-                    </div>
-                `;
-            }).join('');
+            const now = new Date();
+            const currentHour = now.getHours();
+            const forecastPoints = forecast.list.map(item => ({
+                dt: item.dt * 1000,
+                temp: item.main.temp,
+                icon: weatherIcons[item.weather[0].icon] || '\uD83C\uDF21\uFE0F',
+            }));
+
+            const hourlyEntries = [];
+            for (let h = currentHour; h <= 23; h++) {
+                const targetTime = new Date(now);
+                targetTime.setHours(h, 0, 0, 0);
+                const targetMs = targetTime.getTime();
+
+                if (h === currentHour) {
+                    hourlyEntries.push({ hour: h, temp: current.main.temp, icon, label: 'Now' });
+                    continue;
+                }
+
+                let before = null;
+                let after = null;
+                for (let j = 0; j < forecastPoints.length; j++) {
+                    if (forecastPoints[j].dt >= targetMs) {
+                        after = forecastPoints[j];
+                        before = j > 0 ? forecastPoints[j - 1] : null;
+                        break;
+                    }
+                }
+
+                if (!before) {
+                    before = { dt: now.getTime(), temp: current.main.temp, icon };
+                }
+
+                if (after && before.dt !== after.dt) {
+                    const ratio = (targetMs - before.dt) / (after.dt - before.dt);
+                    const interpTemp = before.temp + ratio * (after.temp - before.temp);
+                    const nearestIcon = ratio < 0.5 ? before.icon : after.icon;
+                    hourlyEntries.push({ hour: h, temp: interpTemp, icon: nearestIcon, label: null });
+                } else if (after) {
+                    hourlyEntries.push({ hour: h, temp: after.temp, icon: after.icon, label: null });
+                } else if (before) {
+                    hourlyEntries.push({ hour: h, temp: before.temp, icon: before.icon, label: null });
+                }
+            }
+
+            const formatHour = (h) => {
+                if (h === 0) return '00:00';
+                return h.toString().padStart(2, '0') + ':00';
+            };
+
+            const hourlyHtml = hourlyEntries.map(entry => `
+                <div class="hourly-item">
+                    <div class="time">${entry.label || formatHour(entry.hour)}</div>
+                    <div class="icon">${entry.icon}</div>
+                    <div class="temp">${Math.round(entry.temp)}\u00B0</div>
+                </div>
+            `).join('');
 
             return `
                 <div class="weather-main">
                     <div class="weather-icon">${icon}</div>
                     <div class="weather-info">
-                        <h2>${temp}°F</h2>
-                        <div class="location">📍 ${CITY}</div>
+                        <h2>${temp}\u00B0F</h2>
+                        <div class="location">\u25C8 ${CITY.toUpperCase()}</div>
                         <div class="condition">${condition}</div>
                     </div>
                 </div>
                 <div class="weather-details">
                     <div class="weather-detail">
                         <div class="label">Feels Like</div>
-                        <div class="value">${feelsLike}°</div>
+                        <div class="value">${feelsLike}\u00B0</div>
                     </div>
                     <div class="weather-detail">
                         <div class="label">Humidity</div>
@@ -727,6 +1132,10 @@
                     <div class="weather-detail">
                         <div class="label">Wind</div>
                         <div class="value">${wind} mph</div>
+                    </div>
+                    <div class="weather-detail">
+                        <div class="label">Precip</div>
+                        <div class="value">${rainChance}%</div>
                     </div>
                 </div>
                 <div class="hourly-forecast">${hourlyHtml}</div>
@@ -817,9 +1226,8 @@
         async function fetchAllData() {
             const refreshBtn = document.getElementById('refreshBtn');
             refreshBtn.disabled = true;
-            refreshBtn.textContent = 'Refreshing...';
+            refreshBtn.textContent = 'SYNCING...';
 
-            // Fetch all data in parallel
             const [weatherData, stockQuotes, metalQuotes, sectorQuotes] = await Promise.all([
                 fetchWeather(),
                 Promise.all(STOCKS.map(s => fetchQuote(s.symbol))),
@@ -827,31 +1235,27 @@
                 Promise.all(SECTORS.map(s => fetchQuote(s.symbol))),
             ]);
 
-            // Render weather
             document.getElementById('weatherSection').innerHTML = renderWeather(weatherData);
 
-            // Render stocks
             document.getElementById('stocksGrid').innerHTML = STOCKS.map((stock, i) =>
                 renderStockCard(stock, stockQuotes[i])
             ).join('');
 
-            // Render metals
             document.getElementById('metalsGrid').innerHTML = METALS.map((metal, i) =>
                 renderMetalCard(metal, metalQuotes[i])
             ).join('');
 
-            // Render sectors
             document.getElementById('sectorGrid').innerHTML = SECTORS.map((sector, i) =>
                 renderSectorCard(sector, sectorQuotes[i])
             ).join('');
 
-            // Update timestamp
             const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
             document.getElementById('lastUpdated').textContent =
-                `Updated ${now.toLocaleTimeString()}`;
+                `LAST SYNC // ${timeStr}`;
 
             refreshBtn.disabled = false;
-            refreshBtn.textContent = '↻ Refresh';
+            refreshBtn.textContent = 'REFRESH';
 
             startCountdown();
         }
@@ -866,7 +1270,7 @@
                 const seconds = Math.floor((remaining % 60000) / 1000);
 
                 document.getElementById('countdown').textContent =
-                    `Next refresh in ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                    `NEXT SYNC T-${minutes}:${seconds.toString().padStart(2, '0')}`;
 
                 if (remaining <= 0) {
                     clearInterval(countdownInterval);
@@ -874,6 +1278,110 @@
                 }
             }, 1000);
         }
+
+        // --- To-Do List ---
+        const DEFAULT_TODOS = [
+            { text: 'Do laundry', done: false },
+            { text: 'Check stock portfolio', done: false },
+            { text: 'Buy groceries', done: false },
+            { text: 'Go to the gym', done: false },
+        ];
+
+        function loadTodos() {
+            const saved = localStorage.getItem('dashboard-todos');
+            return saved ? JSON.parse(saved) : DEFAULT_TODOS;
+        }
+
+        function saveTodos(todos) {
+            localStorage.setItem('dashboard-todos', JSON.stringify(todos));
+        }
+
+        function renderTodos() {
+            const todos = loadTodos();
+            const list = document.getElementById('todoList');
+            list.innerHTML = todos.map((todo, i) => `
+                <li class="todo-item ${todo.done ? 'done' : ''}">
+                    <div class="todo-checkbox" onclick="toggleTodo(${i})">&#10003;</div>
+                    <span class="todo-text">${todo.text}</span>
+                    <button class="todo-delete" onclick="deleteTodo(${i})">&times;</button>
+                </li>
+            `).join('');
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            if (!text) return;
+            const todos = loadTodos();
+            todos.unshift({ text, done: false });
+            saveTodos(todos);
+            renderTodos();
+            input.value = '';
+        }
+
+        function toggleTodo(index) {
+            const todos = loadTodos();
+            todos[index].done = !todos[index].done;
+            saveTodos(todos);
+            renderTodos();
+        }
+
+        function deleteTodo(index) {
+            const todos = loadTodos();
+            todos.splice(index, 1);
+            saveTodos(todos);
+            renderTodos();
+        }
+
+        renderTodos();
+
+        // --- Upcoming Events ---
+        const EVENTS = [
+            { date: '2026-02-09', title: 'Speed Dating Event', label: 'Monday' },
+            { date: '2026-02-11', title: 'Time Left Dinner', label: 'Wednesday' },
+            { date: '2026-02-13', title: 'Bus Trip to Houston', label: 'Friday' },
+        ];
+
+        function renderEvents() {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const list = document.getElementById('eventsList');
+
+            list.innerHTML = EVENTS.filter(ev => {
+                const evDate = new Date(ev.date + 'T00:00:00');
+                return evDate >= today;
+            }).map((ev, i) => {
+                const evDate = new Date(ev.date + 'T00:00:00');
+                const diffDays = Math.round((evDate - today) / (1000 * 60 * 60 * 24));
+                let relative, badgeClass;
+                if (diffDays === 0) { relative = 'Today'; badgeClass = 'today'; }
+                else if (diffDays === 1) { relative = 'Tomorrow'; badgeClass = 'tomorrow'; }
+                else { relative = `In ${diffDays} days`; badgeClass = 'upcoming'; }
+
+                const dayNames = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+                const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN',
+                                     'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+                const dayName = dayNames[evDate.getDay()];
+                const dayNum = evDate.getDate();
+
+                return `
+                    <div class="event-card">
+                        <div class="event-accent-bar"></div>
+                        <div class="event-card-body">
+                            <div class="event-day-label">${dayName}</div>
+                            <div class="event-date-big">${monthNames[evDate.getMonth()]} ${dayNum}</div>
+                            <div class="event-title">${ev.title}</div>
+                            <div class="event-countdown ${badgeClass}">
+                                <div class="dot"></div>
+                                ${relative}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        renderEvents();
 
         fetchAllData();
     </script>
